@@ -1,5 +1,9 @@
 var React = require('react');
 var ListItem = React.createClass({
+  propTypes: {
+    ingredient: React.ProTypes.string,
+    price: React.PropTypes.string
+  },
   render: function() {
     return (
       <li>
