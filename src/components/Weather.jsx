@@ -12,6 +12,20 @@ var Weather = React.createClass({
 
   getInitialState: function() {
     return {
+      lat: this.props.lat,
+      lon: this.props.lon,
+      id: '',
+      name: '',
+      Weatherimage: '',
+      Weather: '',
+      Temp: '',
+      Relh: '',
+      Winds: '',
+      Windd: '',
+      Altimeter: '',
+      Dewp: '',
+      Visibility: '',
+      Date: '',
       theLocation: '',
       periodName:[],
       hiLoLabel:[],
@@ -29,7 +43,7 @@ var Weather = React.createClass({
     console.log(this.props.lat);
     console.log(this.props.lon);
 
-    HTTP.get(this.props.lat, this.props.lon)
+    HTTP.get(this.state.lat, this.state.lon)
     .then(function(dataObj) {
       this.setState({
         id: dataObj.currentobservation.id,
