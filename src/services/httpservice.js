@@ -1,4 +1,4 @@
-var Fetch = require('whatwg-fetch');
+require('whatwg-fetch');
 
 var service = {
   get: function(lat, lon) {

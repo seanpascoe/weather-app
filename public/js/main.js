@@ -20440,6 +20440,14 @@ var Weather = React.createClass({
       _this.setState({ lat: position.coords.latitude, lon: position.coords.longitude });
       //      console.log(this.state.lat);
       //      console.log(this.state.lat);
+      getWxData();
+    };
+
+    var error = function error() {
+      _this.setState({ id: "Couldn't retrieve location" });
+    };
+
+    var getWxData = function getWxData() {
       HTTP.get(_this.state.lat, _this.state.lon).then(function (dataObj) {
         this.setState({
           id: dataObj.currentobservation.id,
@@ -20465,7 +20473,8 @@ var Weather = React.createClass({
         });
       }.bind(_this));
     };
-    navigator.geolocation.getCurrentPosition(success);
+
+    navigator.geolocation.getCurrentPosition(success, error);
   },
 
   render: function render() {
@@ -20559,7 +20568,7 @@ ReactDOM.render(React.createElement(Weather, null), document.getElementById('mai
 },{"./components/Weather.jsx":171,"react":166,"react-dom":1}],173:[function(require,module,exports){
 'use strict';
 
-var Fetch = require('whatwg-fetch');
+require('whatwg-fetch');
 
 var service = {
   get: function get(lat, lon) {

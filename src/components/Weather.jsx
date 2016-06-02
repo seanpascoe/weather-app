@@ -37,6 +37,14 @@ var Weather = React.createClass({
       this.setState({lat: position.coords.latitude, lon: position.coords.longitude})
 //      console.log(this.state.lat);
 //      console.log(this.state.lat);
+      getWxData();
+    }
+
+    var error = () => {
+      this.setState({id: "Couldn't retrieve location"})
+    }
+
+    var getWxData = () => {
       HTTP.get(this.state.lat, this.state.lon)
       .then(function(dataObj) {
         this.setState({
@@ -63,10 +71,8 @@ var Weather = React.createClass({
         });
       }.bind(this));
     }
-    navigator.geolocation.getCurrentPosition(success)
 
-
-
+    navigator.geolocation.getCurrentPosition(success, error);
 
   },
 
