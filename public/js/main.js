@@ -20408,6 +20408,20 @@ var Weather = React.createClass({
 
   getInitialState: function getInitialState() {
     return {
+      lat: '',
+      lon: '',
+      id: '',
+      name: '',
+      Weatherimage: '',
+      Weather: '',
+      Temp: '',
+      Relh: '',
+      Winds: '',
+      Windd: '',
+      Altimeter: '',
+      Dewp: '',
+      Visibility: '',
+      Date: '',
       theLocation: '',
       periodName: [],
       hiLoLabel: [],
@@ -20420,42 +20434,38 @@ var Weather = React.createClass({
   },
 
   componentWillMount: function componentWillMount() {
-    //    var latitude = '40.7607790';
-    //    var longitude = '-111.8910470';
-    var latitude = "";
-    var longitude = "";
-    function success(position) {
-      latitude = position.coords.latitude;
-      longitude = position.coords.longitude;
-    }
-    function error() {
-      console.log("Unable to retrieve location");
-    }
-    navigator.geolocation.getCurrentPosition(success, error);
-    HTTP.get(latitude, longitude).then(function (dataObj) {
-      this.setState({
-        id: dataObj.currentobservation.id,
-        name: dataObj.currentobservation.name,
-        Weatherimage: dataObj.currentobservation.Weatherimage,
-        Weather: dataObj.currentobservation.Weather,
-        Temp: dataObj.currentobservation.Temp,
-        Relh: dataObj.currentobservation.Relh,
-        Winds: dataObj.currentobservation.Winds,
-        Windd: dataObj.currentobservation.Windd,
-        Altimeter: dataObj.currentobservation.Altimeter,
-        Dewp: dataObj.currentobservation.Dewp,
-        Visibility: dataObj.currentobservation.Visibility,
-        Date: dataObj.currentobservation.Date,
-        theLocation: dataObj.location.areaDescription,
-        periodName: dataObj.time.startPeriodName,
-        hiLoLabel: dataObj.time.tempLabel,
-        tempData: dataObj.data.temperature,
-        chanceOfPrecip: dataObj.data.pop,
-        wxShort: dataObj.data.weather,
-        wxIcon: dataObj.data.iconLink,
-        wxLong: dataObj.data.text
-      });
-    }.bind(this));
+    var _this = this;
+
+    var success = function success(position) {
+      _this.setState({ lat: position.coords.latitude, lon: position.coords.longitude });
+      //      console.log(this.state.lat);
+      //      console.log(this.state.lat);
+      HTTP.get(_this.state.lat, _this.state.lon).then(function (dataObj) {
+        this.setState({
+          id: dataObj.currentobservation.id,
+          name: dataObj.currentobservation.name,
+          Weatherimage: dataObj.currentobservation.Weatherimage,
+          Weather: dataObj.currentobservation.Weather,
+          Temp: dataObj.currentobservation.Temp,
+          Relh: dataObj.currentobservation.Relh,
+          Winds: dataObj.currentobservation.Winds,
+          Windd: dataObj.currentobservation.Windd,
+          Altimeter: dataObj.currentobservation.Altimeter,
+          Dewp: dataObj.currentobservation.Dewp,
+          Visibility: dataObj.currentobservation.Visibility,
+          Date: dataObj.currentobservation.Date,
+          theLocation: dataObj.location.areaDescription,
+          periodName: dataObj.time.startPeriodName,
+          hiLoLabel: dataObj.time.tempLabel,
+          tempData: dataObj.data.temperature,
+          chanceOfPrecip: dataObj.data.pop,
+          wxShort: dataObj.data.weather,
+          wxIcon: dataObj.data.iconLink,
+          wxLong: dataObj.data.text
+        });
+      }.bind(_this));
+    };
+    navigator.geolocation.getCurrentPosition(success);
   },
 
   render: function render() {
