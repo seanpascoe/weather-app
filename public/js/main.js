@@ -20420,8 +20420,18 @@ var Weather = React.createClass({
   },
 
   componentWillMount: function componentWillMount() {
-    var latitude = '40.7607790';
-    var longitude = '-111.8910470';
+    //    var latitude = '40.7607790';
+    //    var longitude = '-111.8910470';
+    var latitude = "";
+    var longitude = "";
+    function success(position) {
+      latitude = position.coords.latitude;
+      longitude = position.coords.longitude;
+    }
+    function error() {
+      console.log("Unable to retrieve location");
+    }
+    navigator.geolocation.getCurrentPosition(success, error);
     HTTP.get(latitude, longitude).then(function (dataObj) {
       this.setState({
         id: dataObj.currentobservation.id,
