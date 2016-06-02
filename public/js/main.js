@@ -20406,6 +20406,11 @@ var HTTP = require('../services/httpservice.js');
 var Weather = React.createClass({
   displayName: 'Weather',
 
+  propTypes: {
+    lat: React.PropTypes.string,
+    lon: React.PropTypes.string
+  },
+
   getInitialState: function getInitialState() {
     return {
       theLocation: '',
@@ -20420,19 +20425,12 @@ var Weather = React.createClass({
   },
 
   componentWillMount: function componentWillMount() {
-    //    var latitude = '40.7607790';
-    //    var longitude = '-111.8910470';
-    var latitude = "";
-    var longitude = "";
-    function success(position) {
-      latitude = position.coords.latitude;
-      longitude = position.coords.longitude;
-    }
-    function error() {
-      console.log("Unable to retrieve location");
-    }
-    navigator.geolocation.getCurrentPosition(success, error);
-    HTTP.get(latitude, longitude).then(function (dataObj) {
+    //    var latitude = '40.729398';
+    //    var longitude = '-111.884627';
+    console.log(this.props.lat);
+    console.log(this.props.lon);
+
+    HTTP.get(this.props.lat, this.props.lon).then(function (dataObj) {
       this.setState({
         id: dataObj.currentobservation.id,
         name: dataObj.currentobservation.name,
@@ -20544,7 +20542,24 @@ var React = require('react');
 var ReactDOM = require('react-dom');
 var Weather = require('./components/Weather.jsx');
 
-ReactDOM.render(React.createElement(Weather, null), document.getElementById('main'));
+var lat = "";
+var lon = "";
+
+function success(position) {
+  lat = position.coords.latitude.toString();
+  lon = position.coords.longitude.toString();
+  doRender(lat, lon);
+}
+function error() {
+  var main = document.getElementById('main');
+  main.innerHTML = "<h2>Unable to retrieve location</h2>";
+}
+
+function doRender(latitude, longitude) {
+  ReactDOM.render(React.createElement(Weather, { lat: latitude, lon: longitude }), document.getElementById('main'));
+}
+
+navigator.geolocation.getCurrentPosition(success, error);
 
 },{"./components/Weather.jsx":171,"react":166,"react-dom":1}],173:[function(require,module,exports){
 'use strict';
